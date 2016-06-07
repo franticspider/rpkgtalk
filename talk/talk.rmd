@@ -1,0 +1,59 @@
+---
+title: "Sample Document"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 2
+---
+
+
+
+# About me
+
+* Ecologist turned programmer
+* Computer vision/ Evo alg
+* bioarch
+
+<div style="page-break-after: always;"></div>
+
+#  What we'll do
+
+*From R or Rstudio*
+
+* install devtools
+* create github account
+* lay out an R package within github
+* build the package
+* add help
+* add C code library
+
+
+# Devtools
+
+* A really handy package for developing packages
+* Automates a lot of the process for you
+* Available from CRAN:
+
+ `$ install.packages("devtools")`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Links
+
+* This talk:
+
+
+
