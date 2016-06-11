@@ -7,7 +7,7 @@
 halve_cats(ncats)
 }
 \arguments{
-\item{ncats}{number of cats to halve}
+\item{ncats}{number of cats to share}
 }
 \description{
 Wrapper for the  'halve_cats' C function
