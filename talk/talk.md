@@ -429,5 +429,16 @@ $ git commit
 $ git push
 ```
 
+# Summary
+
+* it is EASY to make a package
+* I suggest you make this your standard practise
+* Observations
+    * RStudio has a lot of these tricks built in
+    * Special steps may need to be taken to complie for windows
+    * Many, many other approaches to this 
+    * CRAN is gold standard - but this can be overkill
+* Feedback welcome - please clone!
+
 
 

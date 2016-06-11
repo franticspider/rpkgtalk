@@ -202,6 +202,7 @@
     Now we can work on the package locally, and upload in stages.
    </li>
   </ul>
+  <hr/>
   <h1 id="structure-of-a-github-package">
    Structure of a github package
   </h1>
@@ -257,6 +258,9 @@
     <a href="https://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/">
      https://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/
     </a>
+   </li>
+   <li>
+    From R:
    </li>
   </ul>
   <pre><code>&gt; require(devtools)
@@ -364,20 +368,60 @@
 #' @examples
 #' cat_function()
 </code></pre>
-  <h1 id="git-commits">
-   Git commits
+  <h1 id="make-a-compile-script">
+   Make a compile script
+  </h1>
+  <ul>
+   <li>
+    an advantage of building your package in a sub-directory is that you can
+    <br/>
+    store the compile script in the repository too:
+   </li>
+   <li>
+    Create a file called
+    <code>
+     install.R
+    </code>
+    and put it in the top-level git directory
+   </li>
+   <li>
+    Add these contents:
+   </li>
+  </ul>
+  <pre><code>#These are the libraries you need to build a package:
+require("devtools")
+require(roxygen2)
+
+#Build the help files:
+setwd("mypkg1")
+document()
+
+#Compile
+setwd("..")
+install("mypkg1")
+
+#reload
+require("mypkg1")
+</code></pre>
+  <ul>
+   <li>
+    you can just run this from R (make sure you setwd() correctly)
+   </li>
+  </ul>
+  <hr/>
+  <h1 id="push-to-github">
+   “Push” to github
   </h1>
   <ul>
    <li>
     it is important to ‘stash’ your work regularly
    </li>
-  </ul>
-  <p>
-   <em>
-    From outside R
-   </em>
-  </p>
-  <ul>
+   <li>
+    Do this
+    <em>
+     From outside R
+    </em>
+   </li>
    <li>
     There are three git commands you need to remember
    </li>
@@ -386,6 +430,11 @@
 $ git commit
 $ git push
 </code></pre>
+  <ul>
+   <li>
+    Huge simplification here!
+   </li>
+  </ul>
   <h1 id="creating-a-release">
    Creating a release
   </h1>
@@ -449,57 +498,9 @@ $ git push
 &gt; install_github("franticspider/rpkgtalk", subdir = "mypkg1")
 </code></pre>
   <hr/>
-  <h1 id="make-a-compile-script">
-   Make a compile script
-  </h1>
-  <ul>
-   <li>
-    an advantage of building your package in a sub-directory is that you can
-    <br/>
-    store the compile script in the repository too:
-   </li>
-   <li>
-    Create a file called
-    <code>
-     install.R
-    </code>
-    and put it in the top-level git directory
-   </li>
-   <li>
-    Add these contents:
-   </li>
-  </ul>
-  <pre><code>#These are the libraries you need to build a package:
-require("devtools")
-require(roxygen2)
-
-#Build the help files:
-setwd("mypkg1")
-document()
-
-#Compile
-setwd("..")
-install("mypkg1")
-
-#reload
-require("mypkg1")
-</code></pre>
-  <ul>
-   <li>
-    you can just run this from R (make sure you setwd() correctly)
-   </li>
-  </ul>
   <h1 id="first-commit-to-github">
    First commit to github
   </h1>
-  <ul>
-   <li>
-    Huge simplification here, but…
-   </li>
-   <li>
-    three steps:
-   </li>
-  </ul>
   <pre><code>$ git add .
 $ git commit
 $ git push
@@ -540,9 +541,15 @@ $ git push
   <pre><code>&gt; require(devtools)
 &gt; install_github("franticspider/rpkgtalk", subdir = "mypkg1", ref = "0.2.0")
 </code></pre>
-  <h1 id="add-c-code">
-   Add C code
+  <hr/>
+  <h1 id="add-c-code-or-c-java-fortran-etc">
+   Add C code (or C++, Java, Fortran etc)
   </h1>
+  <p>
+   <a href="http://r-pkgs.had.co.nz/src.html">
+    http://r-pkgs.had.co.nz/src.html
+   </a>
+  </p>
   <ul>
    <li>
     A whole can of worms!
@@ -561,13 +568,13 @@ $ git push
       sub-directory
      </li>
      <li>
-      Only pass in pointers to functions
+      Only pass in pointers to R structures
      </li>
      <li>
       Write a wrapper function in R
      </li>
      <li>
-      Add compile instructions to the compile script
+      Add compile instructions to the install script
      </li>
     </ul>
    </li>
@@ -575,11 +582,6 @@ $ git push
   <h1 id="c-functions">
    C functions
   </h1>
-  <p>
-   <a href="http://r-pkgs.had.co.nz/src.html">
-    http://r-pkgs.had.co.nz/src.html
-   </a>
-  </p>
   <ul>
    <li>
     the function arguments must all be pointers
@@ -637,8 +639,8 @@ $ git push
     flag indicates the C library
    </li>
   </ul>
-  <h1 id="calling-the-c-from-r-example">
-   Calling the C from R - example
+  <h1 id="calling-the-c-code-from-r-example">
+   Calling the C code from R - example
   </h1>
   <pre><code>#' Wrapper for the  'halve_cats' C function
 #' @param ncats number of cats to halve
@@ -728,6 +730,37 @@ $ git push
 $ git commit
 $ git push
 </code></pre>
+  <h1 id="summary">
+   Summary
+  </h1>
+  <ul>
+   <li>
+    it is EASY to make a package
+   </li>
+   <li>
+    I suggest you make this your standard practise
+   </li>
+   <li>
+    Observations
+    <ul>
+     <li>
+      RStudio has a lot of these tricks built in
+     </li>
+     <li>
+      Special steps may need to be taken to complie for windows
+     </li>
+     <li>
+      Many, many other approaches to this
+     </li>
+     <li>
+      CRAN is gold standard - but this can be overkill
+     </li>
+    </ul>
+   </li>
+   <li>
+    Feedback welcome - please clone!
+   </li>
+  </ul>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js">
   </script>
   <script>
