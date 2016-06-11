@@ -14,11 +14,11 @@ html {
 * bioarch - R developer - why I learned how to do this
 * Comments on this methodology are welcome!
 
+* I run R from the command line in Linux 
 
 
-#  What we'll do
 
-*From R (or "unsupported" in Rstudio)*
+#  What we'll do today
 
 * install devtools
 * create github account & repo
@@ -107,7 +107,7 @@ $ git clone https://github.com/franticspider/rpkgtalk
 
 
 
-#Structure of a github package
+#Structure of a github R package
 
 *My preferences are these:*
 
@@ -164,8 +164,8 @@ cat_function <- function(love=TRUE){
 * Just put comments above the function in question
 * Special keywords tell devtools/roxygen how to make the helpfile:
 * `#' @param`     *a parameter of the function* 
-* `#' @keywords` *will find the help for the function when you do* `> ??keyword` 
-* `#' @export  *tells devtools to make this function available*
+* `#' @keywords` *will find the help for the function when you do* `> ??keyword` call
+* `#' @export`  *tells devtools to make this function available*
 * `#' @examples` *gives example function calls* 
 
 ```
@@ -178,6 +178,19 @@ cat_function <- function(love=TRUE){
 #' @examples
 #' cat_function()
 ```
+
+#Help note:
+
+* **OCCASIONALLY** the help can get corrupted - giving error like 
+
+```
+Error in fetch(key) : 
+  lazy-load database '/home/sjh/R/x86_64-pc-linux-gnu-library/3.2/mypkg1/help/mypkg1.rdb' is corrupt
+In addition: Warning message:
+In fetch(key) : internal error -3 in R_decompress1
+```
+
+* restart R to fix
 
 #Make a compile script
 
@@ -215,6 +228,7 @@ require("mypkg1")
 
 * it is important to 'stash' your work regularly
 * Do this *From outside R*
+* Do this from the root directory of your local repo
 * There are three git commands you need to remember
 
 ```
@@ -227,7 +241,7 @@ $ git push
 
 
 
-#Creating a release
+#Creating a release tag
 
 * Important to mark milestones in development with *Releases* (or tags)
 * This is easiest done within github...
@@ -247,7 +261,7 @@ $ git pull
 * If necessary, *remove your current version*
 
 ```
-> remove.packages(mypkg1)
+> remove.packages("mypkg1")
 ```
 
 * Now use devtools' `install_github` command:
@@ -267,45 +281,6 @@ $ git pull
 
 
 ---
-
-
-
-
-# First commit to github
-
-
-```
-$ git add .
-$ git commit
-$ git push
-```
-# Tagging / Versioning
-
-* do within github - keeps things simple
-* you can download a specific tag with devtools (see later)
-
-
-# Accessing releases
-
-* Useful for testing, or helping people with problems
-* First, remove your current version
-
-```
-> remove.packages(mypkg1)
-```
-
-* Now use devtools' `install_github` command:
-
-```
-> require(devtools)
-> install_github("franticspider/rpkgtalk", subdir = "mypkg1", ref = "0.2.0")
-```
-
----
-
-
-
-
 
 
 
@@ -339,6 +314,10 @@ http://r-pkgs.had.co.nz/src.html
 #C function example
 
 ```
+#include <stdlib.h>
+#include <stdio.h>
+
+
 void halve_cats(int *ncats, int *catarray, double * halfcats, int *errflag){
 
 	int i;
@@ -362,7 +341,7 @@ void halve_cats(int *ncats, int *catarray, double * halfcats, int *errflag){
 * handles the "raw" arguments
 * calls the function
 * devtools `@useDynLib` flag indicates the C library
-
+* returns an R list with the  arguments to the c function
 
 #Calling the C code from R - example
 
@@ -434,10 +413,10 @@ $ git push
 * it is EASY to make a package
 * I suggest you make this your standard practise
 * Observations
-    * RStudio has a lot of these tricks built in
-    * Special steps may need to be taken to complie for windows
-    * Many, many other approaches to this 
     * CRAN is gold standard - but this can be overkill
+    * RStudio has a lot of these tricks built in
+    * Special steps may need to be taken to compile for windows
+    * Many, many other approaches to this 
 * Feedback welcome - please clone!
 
 

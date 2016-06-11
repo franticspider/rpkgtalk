@@ -33,17 +33,19 @@
     bioarch - R developer - why I learned how to do this
    </li>
    <li>
-    Comments on this methodology are welcome!
+    <p>
+     Comments on this methodology are welcome!
+    </p>
+   </li>
+   <li>
+    <p>
+     I run R from the command line in Linux
+    </p>
    </li>
   </ul>
-  <h1 id="what-well-do">
-   What we’ll do
+  <h1 id="what-well-do-today">
+   What we’ll do today
   </h1>
-  <p>
-   <em>
-    From R (or “unsupported” in Rstudio)
-   </em>
-  </p>
   <ul>
    <li>
     install devtools
@@ -203,8 +205,8 @@
    </li>
   </ul>
   <hr/>
-  <h1 id="structure-of-a-github-package">
-   Structure of a github package
+  <h1 id="structure-of-a-github-r-package">
+   Structure of a github R package
   </h1>
   <p>
    <em>
@@ -343,9 +345,12 @@
     <code>
      &gt; ??keyword
     </code>
+    call
    </li>
    <li>
-    `#’ @export
+    <code>
+     #' @export
+    </code>
     <em>
      tells devtools to make this function available
     </em>
@@ -368,6 +373,27 @@
 #' @examples
 #' cat_function()
 </code></pre>
+  <h1 id="help-note">
+   Help note:
+  </h1>
+  <ul>
+   <li>
+    <strong>
+     OCCASIONALLY
+    </strong>
+    the help can get corrupted - giving error like
+   </li>
+  </ul>
+  <pre><code>Error in fetch(key) : 
+  lazy-load database '/home/sjh/R/x86_64-pc-linux-gnu-library/3.2/mypkg1/help/mypkg1.rdb' is corrupt
+In addition: Warning message:
+In fetch(key) : internal error -3 in R_decompress1
+</code></pre>
+  <ul>
+   <li>
+    restart R to fix
+   </li>
+  </ul>
   <h1 id="make-a-compile-script">
    Make a compile script
   </h1>
@@ -423,6 +449,9 @@ require("mypkg1")
     </em>
    </li>
    <li>
+    Do this from the root directory of your local repo
+   </li>
+   <li>
     There are three git commands you need to remember
    </li>
   </ul>
@@ -435,8 +464,8 @@ $ git push
     Huge simplification here!
    </li>
   </ul>
-  <h1 id="creating-a-release">
-   Creating a release
+  <h1 id="creating-a-release-tag">
+   Creating a release tag
   </h1>
   <ul>
    <li>
@@ -475,7 +504,7 @@ $ git push
     </em>
    </li>
   </ul>
-  <pre><code>&gt; remove.packages(mypkg1)
+  <pre><code>&gt; remove.packages("mypkg1")
 </code></pre>
   <ul>
    <li>
@@ -496,50 +525,6 @@ $ git push
   </ul>
   <pre><code>&gt; require(devtools)
 &gt; install_github("franticspider/rpkgtalk", subdir = "mypkg1")
-</code></pre>
-  <hr/>
-  <h1 id="first-commit-to-github">
-   First commit to github
-  </h1>
-  <pre><code>$ git add .
-$ git commit
-$ git push
-</code></pre>
-  <h1 id="tagging-versioning">
-   Tagging / Versioning
-  </h1>
-  <ul>
-   <li>
-    do within github - keeps things simple
-   </li>
-   <li>
-    you can download a specific tag with devtools (see later)
-   </li>
-  </ul>
-  <h1 id="accessing-releases_1">
-   Accessing releases
-  </h1>
-  <ul>
-   <li>
-    Useful for testing, or helping people with problems
-   </li>
-   <li>
-    First, remove your current version
-   </li>
-  </ul>
-  <pre><code>&gt; remove.packages(mypkg1)
-</code></pre>
-  <ul>
-   <li>
-    Now use devtools’
-    <code>
-     install_github
-    </code>
-    command:
-   </li>
-  </ul>
-  <pre><code>&gt; require(devtools)
-&gt; install_github("franticspider/rpkgtalk", subdir = "mypkg1", ref = "0.2.0")
 </code></pre>
   <hr/>
   <h1 id="add-c-code-or-c-java-fortran-etc">
@@ -599,7 +584,11 @@ $ git push
   <h1 id="c-function-example">
    C function example
   </h1>
-  <pre><code>void halve_cats(int *ncats, int *catarray, double * halfcats, int *errflag){
+  <pre><code>#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+
+
+void halve_cats(int *ncats, int *catarray, double * halfcats, int *errflag){
 
     int i;
 
@@ -637,6 +626,9 @@ $ git push
      @useDynLib
     </code>
     flag indicates the C library
+   </li>
+   <li>
+    returns an R list with the  arguments to the c function
    </li>
   </ul>
   <h1 id="calling-the-c-code-from-r-example">
@@ -744,16 +736,16 @@ $ git push
     Observations
     <ul>
      <li>
+      CRAN is gold standard - but this can be overkill
+     </li>
+     <li>
       RStudio has a lot of these tricks built in
      </li>
      <li>
-      Special steps may need to be taken to complie for windows
+      Special steps may need to be taken to compile for windows
      </li>
      <li>
       Many, many other approaches to this
-     </li>
-     <li>
-      CRAN is gold standard - but this can be overkill
      </li>
     </ul>
    </li>
